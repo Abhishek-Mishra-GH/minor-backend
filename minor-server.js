@@ -1,13 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 dotenv.config();
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 // MongoDB Connection
 const mongoURI = process.env.DATABASE_URL; // Replace with your MongoDB URI
@@ -70,5 +69,5 @@ app.post("/login", async (req, res) => {
 });
 
 // Server Start
-const PORT = 5001;
+const PORT = 8344;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
