@@ -25,6 +25,15 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
+const contactSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  message: { type: String, required: true },
+  date: { type: Date, default: Date.now },
+});
+
+const Contact = mongoose.model("Contact", contactSchema);
+
 // Signup Route
 app.post("/signup", async (req, res) => {
   const { name, mobile, email, password } = req.body;
@@ -67,6 +76,22 @@ app.post("/login", async (req, res) => {
     res.status(500).json({ message: "Server Error", error: err.message });
   }
 });
+
+// Contact Us Route
+app.post("/contactus", async (req, res) => {
+  const { name, email, message } = req.body;
+
+  try {
+    // Create a new contact entry
+    const newContact = new Contact({ name, email, message });
+    await newContact.save();
+
+    res.status(201).json({ message: "Your message has been received. Thank you!" });
+  } catch (err) {
+    res.status(500).json({ message: "Server Error", error: err.message });
+  }
+});
+
 
 // Server Start
 const PORT = 8344;
